@@ -157,18 +157,17 @@ delimiter $$
 delimiter ;
 
 
--- 1. PROVEEDORES (10 registros)
-insert into Proveedores (nombre_proveedor, telefono_proveedor, direccion, email_proveedor) values 
-('Lácteos Olán', 55443322, 'Km 20 Ruta al Atlántico', 'ventas@olan.com'),
-('Corporación Abarrotera', 22110099, 'Zona 12, Ciudad', 'pedidos@corpabarr.com'),
-('Limpieza Total', 77889966, 'Zona 4, Mixco', 'contacto@limpiezatotal.com'),
-('Panadería El Trigal', 44556677, 'Avenida Elena 3-45', 'info@eltrigal.com'),
-('Distribuidora Bebidas Ya', 33221100, 'Calzada Roosevelt', 'logistica@bebidasya.gt'),
-('Carnes Selectas', 66554433, 'Mercado Central Local 5', 'ventas@carnesselectas.com'),
-('Frutas y Verduras HN', 88991122, 'Central de Mayoreo', 'pedidos@fyvhn.com'),
-('Empaques Diversos', 11223344, 'Parque Industrial Sur', 'empaques@diversos.com'),
-('Especias del Mundo', 99887766, 'Zona 1, Centro Histórico', 'especias@mundo.com'),
-('Avícola Real', 55664477, 'Granja El Retiro', 'contacto@avicolareal.com');
+-- 1. PROVEEDORES (10 registros) 
+call sp_AgregarProveedor('Lácteos Olán', 55443322, 'Km 20 Ruta al Atlántico', 'ventas@olan.com');
+call sp_AgregarProveedor('Corporación Abarrotera', 22110099, 'Zona 12, Ciudad', 'pedidos@corpabarr.com');
+call sp_AgregarProveedor('Limpieza Total', 77889966, 'Zona 4, Mixco', 'contacto@limpiezatotal.com');
+call sp_AgregarProveedor('Panadería El Trigal', 44556677, 'Avenida Elena 3-45', 'info@eltrigal.com');
+call sp_AgregarProveedor('Distribuidora Bebidas Ya', 33221100, 'Calzada Roosevelt', 'logistica@bebidasya.gt');
+call sp_AgregarProveedor('Carnes Selectas', 66554433, 'Mercado Central Local 5', 'ventas@carnesselectas.com');
+call sp_AgregarProveedor('Frutas y Verduras HN', 88991122, 'Central de Mayoreo', 'pedidos@fyvhn.com');
+call sp_AgregarProveedor('Empaques Diversos', 11223344, 'Parque Industrial Sur', 'empaques@diversos.com');
+call sp_AgregarProveedor('Especias del Mundo', 99887766, 'Zona 1, Centro Histórico', 'especias@mundo.com');
+call sp_AgregarProveedor('Avícola Real', 55664477, 'Granja El Retiro', 'contacto@avicolareal.com');
 
 call sp_AgregarEmpleado('Ana', 'Ramírez', 'Gerente', 'aramirez@click.com');
 call sp_AgregarEmpleado('Luis', 'Cano', 'Cajero', 'lcano@click.com');

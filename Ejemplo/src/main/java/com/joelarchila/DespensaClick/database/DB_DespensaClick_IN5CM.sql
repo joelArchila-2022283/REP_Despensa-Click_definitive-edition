@@ -47,9 +47,66 @@ create table Ventas(
 );
 
 
--- PROCEDIMIENTO ALMACENADOS
+-- PROCEDIMIENTO ALMACENADOS --
+-- _____________________________________________________
+-- Procedimientos almacenados de la entidad Proveedores
+-- _____________________________________________________
 
--- Procedimiento almacenado Listar
+-- LISTAR PROVEEDORES
+delimiter $$
+	create procedure sp_ListarProveedor()
+    begin
+		select * from Proveedores;
+    end $$
+delimiter ;
+
+-- CREAR PROVEEDORES
+delimiter $$
+	create procedure sp_AgregarProveedor(
+		in pr_nombre varchar(60),
+        in pr_telefono int,
+        in pr_direccion varchar(100),
+        in pr_email varchar(100)
+	
+    )
+    begin
+		insert into Proveedores (nombre_proveedor, telefono_proveedor, direccion, email_proveedor)values
+        (pr_nombre, pr_telefono, pr_direccion, pr_email);
+    end $$
+delimiter ;
+
+-- ACTUALIZAR PROVEEDORES
+delimiter $$
+	create procedure sp_ActualizarProveedor(
+		in pr_id int,
+        in pr_nombre varchar(60),
+        in pr_telefono int,
+        in pr_direccion varchar(20), 
+		in pr_email varchar(100)
+    )
+    begin
+		update Proveedores
+        set nombre_proveedor = pr_nombre, 
+			telefono_proveedor = pr_telefono, 
+			direccion = pr_direccion, 
+			email_proveedor = pr_email 
+        where id_proveedor = pr_id;
+    end $$
+delimiter ;
+
+-- ELIMINAR PROVEEDORES
+delimiter $$
+	create procedure sp_EliminarProveedor(in pr_id int)
+    begin
+		delete from Empleados where id_proveedor = pr_id;
+    end $$
+delimiter ;
+
+-- ___________________________________________________
+-- Procedimientos almacenados de la entidad Empleados
+-- ___________________________________________________
+
+-- LISTAR EMPLEADOS
 delimiter $$
 	create procedure sp_ListarEmpleado()
     begin
@@ -57,7 +114,7 @@ delimiter $$
     end $$
 delimiter ;
 
--- Procedimeinto almacenado Crear
+-- CREAR EMPLEADOS
 delimiter $$
 	create procedure sp_AgregarEmpleado(
 		in p_nombre varchar(60),
@@ -72,7 +129,7 @@ delimiter $$
     end $$
 delimiter ;
 
--- Procedimiento almacenado Actualizar
+-- ACTUALIZAR EMPLEADOS
 delimiter $$
 	create procedure sp_ActualizarEmpleado(
 		in e_id int,
@@ -91,7 +148,7 @@ delimiter $$
     end $$
 delimiter ;
 
--- Procedimiento almacenado Eliminar
+-- ELIMINAR EMPLEADOS 
 delimiter $$
 	create procedure sp_EliminarEmpleado(in e_id int)
     begin

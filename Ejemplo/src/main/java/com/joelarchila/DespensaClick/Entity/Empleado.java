@@ -1,4 +1,4 @@
-package com.joelarchila.DespensaClick.model;
+package com.joelarchila.DespensaClick.Entity;
 
 import jakarta.persistence.*;
 

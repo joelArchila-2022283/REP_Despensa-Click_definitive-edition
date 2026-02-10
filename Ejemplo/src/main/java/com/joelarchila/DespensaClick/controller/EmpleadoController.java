@@ -1,6 +1,6 @@
 package com.joelarchila.DespensaClick.controller;
 
-import com.joelarchila.DespensaClick.model.Empleado;
+import com.joelarchila.DespensaClick.Entity.Empleado;
 import com.joelarchila.DespensaClick.service.EmpleadoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 //Avisa que esta clase manejará datos
 @RestController

@@ -1,6 +1,6 @@
 package com.joelarchila.DespensaClick.repository;
 
-import com.joelarchila.DespensaClick.model.Empleado;
+import com.joelarchila.DespensaClick.Entity.Empleado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.joelarchila.DespensaClick.service;
 
-import com.joelarchila.DespensaClick.model.Empleado;
+import com.joelarchila.DespensaClick.Entity.Empleado;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

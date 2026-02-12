@@ -27,8 +27,8 @@ public class Producto {
     @Column(name = "id_proveedor")
     private Integer id_proveedor;
 
-    public Producto(Integer id_producto) {
-        this.id_producto = id_producto;
+    public Producto() {
+
     }
 
     public Producto(Integer id_producto, String nombre_producto, String categoria_producto, double precio_compra, double precio_venta, Integer id_proveedor) {
@@ -40,6 +40,7 @@ public class Producto {
         this.id_proveedor = id_proveedor;
     }
 
+    
     public Integer getId_producto() {
         return id_producto;
     }

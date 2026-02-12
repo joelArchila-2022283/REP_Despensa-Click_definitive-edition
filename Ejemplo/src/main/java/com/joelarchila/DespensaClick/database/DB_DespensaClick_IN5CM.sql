@@ -156,6 +156,61 @@ delimiter $$
     end $$
 delimiter ;
 
+-- ___________________________________________________
+-- Procedimientos almacenados de la entidad Productos
+-- ___________________________________________________
+
+-- LISTAR PRODUCTOS
+delimiter $$
+	create procedure sp_ListarProducto()
+    begin
+		select * from Productos;
+    end $$
+delimiter ;
+
+-- CREAR PRODUCTOS
+delimiter $$
+	create procedure sp_AgregarProducto(
+		in pd_nombre varchar(60),
+		in pd_categoria varchar(60),
+		in pd_precioC double,
+		in pd_precioV double,
+		in pd_id_proveedor int
+	)
+	begin
+		insert into Productos (nombre_producto, categoria_producto, precio_compra, precio_venta, id_proveedor)
+		values (pd_nombre, pd_categoria, pd_precioC, pd_precioV, pd_id_proveedor);
+	end $$
+delimiter ;
+
+-- ACTUALIZAR PRODUCTOS 
+delimiter $$
+	create procedure sp_ActualizarProducto(
+		in pd_id int,
+		in pd_nombre varchar(60),
+		in pd_categoria varchar(60),
+		in pd_precioC double,
+		in pd_precioV double,
+		in pd_id_proveedor int
+	)
+	begin
+		update Productos
+		set nombre_producto = pd_nombre,
+			categoria_producto = pd_categoria,
+			precio_compra = pd_precioC,
+			precio_venta = pd_precioV,
+			id_proveedor = pd_id_proveedor
+		where id_producto = pd_id;
+	end $$
+delimiter ;
+
+-- ELIMINAR PRODUCTOS
+delimiter $$
+	create procedure sp_EliminarProducto(in pd_id int)
+	begin
+		delete from Productos where id_producto = pd_id;
+	end $$
+delimiter ;
 
 -- 1. PROVEEDORES (10 registros) 
 call sp_AgregarProveedor('Lácteos Olán', 55443322, 'Km 20 Ruta al Atlántico', 'ventas@olan.com');
@@ -181,17 +236,16 @@ call sp_AgregarEmpleado('Roberto', 'Paz', 'Limpieza', 'rpaz@click.com');
 call sp_AgregarEmpleado('Claudia', 'Vega', 'Subgerente', 'cvega@click.com');
 
 -- 3. PRODUCTOS (10 registros)
-insert into Productos (nombre_producto, categoria_producto, precio_compra, precio_venta, id_proveedor) values 
-('Leche Entera 1L', 'Lácteos', 10.50, 14.00, 1),
-('Arroz Blanco 2lb', 'Granos', 5.00, 8.50, 2),
-('Detergente Multiusos', 'Limpieza', 12.00, 18.00, 3),
-('Aceite Vegetal 900ml', 'Abarrotes', 15.00, 22.00, 2),
-('Pan Integral pack', 'Panadería', 14.00, 20.00, 4),
-('Agua Pura 5L', 'Bebidas', 8.00, 12.00, 5),
-('Docena de Huevos', 'Granja', 11.00, 16.00, 10),
-('Jabón de Manos', 'Higiene', 6.50, 10.00, 3),
-('Pasta de Dientes', 'Higiene', 9.00, 13.50, 8),
-('Café Molido 400g', 'Bebidas', 25.00, 38.00, 9);
+call sp_AgregarProducto('Leche Entera 1L', 'Lácteos', 10.50, 14.00, 1);
+call sp_AgregarProducto('Arroz Blanco 2lb', 'Granos', 5.00, 8.50, 2);
+call sp_AgregarProducto('Detergente Multiusos', 'Limpieza', 12.00, 18.00, 3);
+call sp_AgregarProducto('Aceite Vegetal 900ml', 'Abarrotes', 15.00, 22.00, 2);
+call sp_AgregarProducto('Pan Integral pack', 'Panadería', 14.00, 20.00, 4);
+call sp_AgregarProducto('Agua Pura 5L', 'Bebidas', 8.00, 12.00, 5);
+call sp_AgregarProducto('Docena de Huevos', 'Granja', 11.00, 16.00, 10);
+call sp_AgregarProducto('Jabón de Manos', 'Higiene', 6.50, 10.00, 3);
+call sp_AgregarProducto('Pasta de Dientes', 'Higiene', 9.00, 13.50, 8);
+call sp_AgregarProducto('Café Molido 400g', 'Bebidas', 25.00, 38.00, 9);
 
 -- 4. VENTAS (10 registros)
 insert into Ventas (fecha_venta, cantidad, total, id_empleado, id_producto) values 

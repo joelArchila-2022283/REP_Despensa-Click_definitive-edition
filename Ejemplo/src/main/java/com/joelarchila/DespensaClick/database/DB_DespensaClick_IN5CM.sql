@@ -212,6 +212,62 @@ delimiter $$
 	end $$
 delimiter ;
 
+-- _____________________________________________________
+-- Procedimientos almacenados de la entidad Ventas
+-- _____________________________________________________
+
+-- LISTAR VENTAS
+delimiter $$
+create procedure sp_ListarVenta()
+begin
+    select * from Ventas;
+end $$
+delimiter ;
+
+-- AGREGAR VENTAS
+delimiter $$
+create procedure sp_AgregarVenta(
+    in vn_fecha date,
+    in vn_cantidad int,
+    in vn_total double,
+    in vn_id_empleado int,
+    in vn_id_producto int
+)
+begin
+    insert into Ventas (fecha_venta, cantidad, total, id_empleado, id_producto)
+    values (vn_fecha, vn_cantidad, vn_total, vn_id_empleado, vn_id_producto);
+end $$
+delimiter ;
+
+-- ACTUALIZAR VENTAS
+delimiter $$
+create procedure sp_ActualizarVenta(
+    in vn_id int,
+    in vn_fecha date,
+    in vn_cantidad int,
+    in vn_total double,
+    in vn_id_empleado int,
+    in vn_id_producto int
+)
+begin
+    update Ventas
+    set fecha_venta = vn_fecha,
+        cantidad = vn_cantidad,
+        total = vn_total,
+        id_empleado = vn_id_empleado,
+        id_producto = vn_id_producto
+    where id_venta = vn_id;
+end $$
+delimiter ;
+
+-- ELIMINAR VENTAS
+delimiter $$
+create procedure sp_EliminarVenta(in vn_id int)
+begin
+    delete from Ventas where id_venta = vn_id;
+end $$
+delimiter ;
+
 -- 1. PROVEEDORES (10 registros) 
 call sp_AgregarProveedor('Lácteos Olán', 55443322, 'Km 20 Ruta al Atlántico', 'ventas@olan.com');
 call sp_AgregarProveedor('Corporación Abarrotera', 22110099, 'Zona 12, Ciudad', 'pedidos@corpabarr.com');
@@ -248,16 +304,18 @@ call sp_AgregarProducto('Pasta de Dientes', 'Higiene', 9.00, 13.50, 8);
 call sp_AgregarProducto('Café Molido 400g', 'Bebidas', 25.00, 38.00, 9);
 
 -- 4. VENTAS (10 registros)
-insert into Ventas (fecha_venta, cantidad, total, id_empleado, id_producto) values 
-('2024-05-20', 2, 28.00, 2, 1),
-('2024-05-20', 1, 8.50, 4, 2),
-('2024-05-21', 3, 54.00, 2, 3),
-('2024-05-21', 1, 22.00, 8, 4),
-('2024-05-21', 2, 40.00, 4, 5),
-('2024-05-22', 5, 60.00, 2, 6),
-('2024-05-22', 1, 16.00, 8, 7),
-('2024-05-23', 2, 20.00, 2, 8),
-('2024-05-23', 1, 13.50, 4, 9),
-('2024-05-23', 1, 38.00, 8, 10);
+call sp_AgregarVenta('2024-05-20', 2, 28.00, 2, 1);
+call sp_AgregarVenta('2024-05-20', 1, 8.50, 4, 2);
+call sp_AgregarVenta('2024-05-21', 3, 54.00, 2, 3);
+call sp_AgregarVenta('2024-05-21', 1, 22.00, 8, 4);
+call sp_AgregarVenta('2024-05-21', 2, 40.00, 4, 5);
+call sp_AgregarVenta('2024-05-22', 5, 60.00, 2, 6);
+call sp_AgregarVenta('2024-05-22', 1, 16.00, 8, 7);
+call sp_AgregarVenta('2024-05-23', 2, 20.00, 2, 8);
+call sp_AgregarVenta('2024-05-23', 1, 13.50, 4, 9);
+call sp_AgregarVenta('2024-05-23', 1, 38.00, 8, 10);
 
-call sp_ListarEmpleado();
+-- call sp_ListarEmpleado();
+-- call sp_ListarProveedor();
+-- call sp_ListarProducto();
+-- call sp_ListarVentas();

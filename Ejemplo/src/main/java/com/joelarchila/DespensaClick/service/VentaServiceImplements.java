@@ -17,7 +17,7 @@ public class VentaServiceImplements implements VentaService{
 
     @Override
     public List<Venta> getAllVentas() {
-        return ventaRepository.findAll();;
+        return ventaRepository.findAll();
     }
 
     @Override

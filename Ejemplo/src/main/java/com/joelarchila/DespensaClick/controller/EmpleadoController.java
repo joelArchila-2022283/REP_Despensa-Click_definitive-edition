@@ -54,9 +54,25 @@ public class EmpleadoController {
 
     //Anotacion
     @PutMapping("/{id}")
-    public ResponseEntity<Empleado> updateEmpleado(@PathVariable Integer id, @RequestBody Empleado empleado){
+    public ResponseEntity<Object> updateEmpleado(@PathVariable Integer id, @RequestBody Empleado empleado){
         //Le pasamos el id y los datos nuevos al service
         Empleado actualizado = empleadoService.updateEmpleado(id, empleado);
+
+        // Validar que el ID sea válido (mayor a 0)
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: El ID proporcionado no es válido.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar que los datos nuevos no sean nulos
+        if (empleado.getNombre_empleado() == null || empleado.getApellido_empleado() == null || empleado.getEmail_empleado() == null) {
+            return new ResponseEntity<>("Error: No puedes dejar campos obligatorios nulos al actualizar.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar el correo
+        String correo = empleado.getEmail_empleado().toLowerCase();
+        if (!(correo.endsWith("@gmail.com") || correo.endsWith("@yahoo.com") || correo.endsWith("@outlook.com"))) {
+            return new ResponseEntity<>("Error: El nuevo correo debe ser un dominio permitido.", HttpStatus.BAD_REQUEST);
+        }
 
         if(actualizado != null){
             //Si el servicio nos devolvio al empleado porque exista, respodemos con el httpstatus
@@ -72,6 +88,17 @@ public class EmpleadoController {
     public ResponseEntity<String> deleteEmpleado(@PathVariable Integer id){
         //Intenta buscar para saber si esta ahi el empleado
         Empleado empleado = empleadoService.getEmpleadoById(id);
+
+        //Validar que el ID
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: El ID debe ser un número positivo.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Verificar si existe antes de borrar
+        Empleado existente = empleadoService.getEmpleadoById(id);
+        if (existente == null) {
+            return new ResponseEntity<>("Error: El empleado con ID " + id + " no existe.", HttpStatus.NOT_FOUND);
+        }
 
         if(empleado != null){
             empleadoService.deleteEmpleado(id);

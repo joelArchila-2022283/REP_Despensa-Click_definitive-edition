@@ -28,6 +28,18 @@ public class ProveedorController {
     //Crear
     @PostMapping
     public ResponseEntity<Object> createProveedor(@Valid @RequestBody Proveedor proveedor){
+
+        // 1. Validar Nulos (Asegúrate de que estos nombres coincidan con tu Entity Proveedor)
+        if (proveedor.getNombre_proveedor() == null || proveedor.getEmail_proveedor() == null || proveedor.getDireccion() == null) {
+            return new ResponseEntity<>("Error: El nombre, direccion y correo son obligatorios.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. Validar Correo
+        String correo = proveedor.getEmail_proveedor().toLowerCase();
+        if (!(correo.endsWith("@gmail.com") || correo.endsWith("@yahoo.com") || correo.endsWith("@outlook.com"))) {
+            return new ResponseEntity<>("Error: El correo debe ser @gmail.com, @yahoo.com o @outlook.com.", HttpStatus.BAD_REQUEST);
+        }
+
         try{
             Proveedor createdProveedor = proveedorService.saveProveedor(proveedor);
             return new ResponseEntity<>(createdProveedor, HttpStatus.CREATED);
@@ -38,7 +50,24 @@ public class ProveedorController {
 
     //Actualizar
     @PutMapping("/{id}")
-    public ResponseEntity<Proveedor> updateProveedor(@PathVariable Integer id, @RequestBody Proveedor proveedor){
+    public ResponseEntity<Object> updateProveedor(@PathVariable Integer id, @RequestBody Proveedor proveedor){
+
+        // Validar ID
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: El ID debe ser un número positivo.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar nulos en los campos
+        if (proveedor.getNombre_proveedor() == null || proveedor.getEmail_proveedor() == null) {
+            return new ResponseEntity<>("Error: No puedes dejar campos obligatorios vacíos.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar Correo
+        String correo = proveedor.getEmail_proveedor().toLowerCase();
+        if (!(correo.endsWith("@gmail.com") || correo.endsWith("@yahoo.com") || correo.endsWith("@outlook.com"))) {
+            return new ResponseEntity<>("Error: Formato de correo inválido.", HttpStatus.BAD_REQUEST);
+        }
+
         Proveedor actualizado = proveedorService.updateProveedor(id, proveedor);
 
         if(actualizado != null){
@@ -51,6 +80,11 @@ public class ProveedorController {
     //Eliminar
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProveedor(@PathVariable Integer id){
+
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: ID no válido.", HttpStatus.BAD_REQUEST);
+        }
+        
         Proveedor proveedor = proveedorService.getProveedorById(id);
 
         if(proveedor != null){

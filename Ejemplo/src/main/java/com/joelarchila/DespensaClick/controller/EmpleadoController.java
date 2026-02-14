@@ -55,8 +55,7 @@ public class EmpleadoController {
     //Anotacion
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateEmpleado(@PathVariable Integer id, @RequestBody Empleado empleado){
-        //Le pasamos el id y los datos nuevos al service
-        Empleado actualizado = empleadoService.updateEmpleado(id, empleado);
+
 
         // Validar que el ID sea válido (mayor a 0)
         if (id <= 0) {
@@ -74,6 +73,9 @@ public class EmpleadoController {
             return new ResponseEntity<>("Error: El nuevo correo debe ser un dominio permitido.", HttpStatus.BAD_REQUEST);
         }
 
+        //Le pasamos el id y los datos nuevos al service
+        Empleado actualizado = empleadoService.updateEmpleado(id, empleado);
+
         if(actualizado != null){
             //Si el servicio nos devolvio al empleado porque exista, respodemos con el httpstatus
             return new ResponseEntity<>(actualizado, HttpStatus.OK);
@@ -86,8 +88,6 @@ public class EmpleadoController {
     //Anotacion para quitar algo del servidor
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmpleado(@PathVariable Integer id){
-        //Intenta buscar para saber si esta ahi el empleado
-        Empleado empleado = empleadoService.getEmpleadoById(id);
 
         //Validar que el ID
         if (id <= 0) {
@@ -99,6 +99,9 @@ public class EmpleadoController {
         if (existente == null) {
             return new ResponseEntity<>("Error: El empleado con ID " + id + " no existe.", HttpStatus.NOT_FOUND);
         }
+
+        //Intenta buscar para saber si esta ahi el empleado
+        Empleado empleado = empleadoService.getEmpleadoById(id);
 
         if(empleado != null){
             empleadoService.deleteEmpleado(id);

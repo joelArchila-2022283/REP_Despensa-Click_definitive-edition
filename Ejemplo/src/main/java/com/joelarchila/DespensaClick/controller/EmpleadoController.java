@@ -30,6 +30,19 @@ public class EmpleadoController {
     //Anotación cuando envian datos nuevos, el controlador los recibe
     @PostMapping
     public ResponseEntity<Object> createEmpleado(@Valid @RequestBody Empleado empleado){
+
+        //Validacion de campos nulos
+        if(empleado.getNombre_empleado() == null || empleado.getApellido_empleado() == null || empleado.getEmail_empleado() == null){
+            return new ResponseEntity<>("Error: Todos los campos son obligatorios y no pueden ser nulos.", HttpStatus.BAD_REQUEST);
+        }
+
+        String correo = empleado.getEmail_empleado().toLowerCase(); // Convertimos a minúsculas para comparar fácil
+
+        // Verificamos si NO termina con ninguno de los tres permitidos
+        if (!(correo.endsWith("@gmail.com") || correo.endsWith("@yahoo.com") || correo.endsWith("@outlook.com"))) {
+            return new ResponseEntity<>("Error: El correo debe ser un dominio válido (@gmail.com, @yahoo.com o @outlook.com).", HttpStatus.BAD_REQUEST);
+        }
+
         try{
             Empleado createdEmpleado = empleadoService.saveEmpleado(empleado);
             return new ResponseEntity<>(createdEmpleado, HttpStatus.CREATED);

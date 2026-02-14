@@ -28,6 +28,22 @@ public class VentaController {
     // Crear
     @PostMapping
     public ResponseEntity<Object> createVenta(@Valid @RequestBody Venta venta) {
+
+        // Validar Nulos
+        if (venta.getId_producto() == null || venta.getId_empleado() == null || venta.getFecha_venta() == null) {
+            return new ResponseEntity<>("Error: Producto, Empleado y Fecha son obligatorios.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar Cantidad
+        if (venta.getCantidad() <= 0) {
+            return new ResponseEntity<>("Error: La cantidad debe ser mayor a 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar Total
+        if (venta.getTotal() < 0) {
+            return new ResponseEntity<>("Error: El total no puede ser negativo.", HttpStatus.BAD_REQUEST);
+        }
+
         try {
             Venta createdVenta = ventaService.saveVenta(venta);
             return new ResponseEntity<>(createdVenta, HttpStatus.CREATED);
@@ -38,7 +54,18 @@ public class VentaController {
 
     // Actualizar
     @PutMapping("/{id}")
-    public ResponseEntity<Venta> updateVenta(@PathVariable Integer id, @RequestBody Venta venta) {
+    public ResponseEntity<Object> updateVenta(@PathVariable Integer id, @RequestBody Venta venta) {
+
+        // Validar ID
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: ID de venta inválido.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Validar que los datos de actualización
+        if (venta.getCantidad() <= 0 || venta.getTotal() < 0) {
+            return new ResponseEntity<>("Error: Cantidad o Total no válidos.", HttpStatus.BAD_REQUEST);
+        }
+
         Venta actualizada = ventaService.updateVenta(id, venta);
 
         if (actualizada != null) {
@@ -51,6 +78,11 @@ public class VentaController {
     // Eliminar
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteVenta(@PathVariable Integer id) {
+
+        if (id <= 0) {
+            return new ResponseEntity<>("Error: ID debe ser mayor a cero.", HttpStatus.BAD_REQUEST);
+        }
+
         Venta venta = ventaService.getVentaById(id);
 
         if (venta != null) {

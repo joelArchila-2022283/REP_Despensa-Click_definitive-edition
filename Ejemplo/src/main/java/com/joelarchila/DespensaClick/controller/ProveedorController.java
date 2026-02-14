@@ -84,7 +84,7 @@ public class ProveedorController {
         if (id <= 0) {
             return new ResponseEntity<>("Error: ID no válido.", HttpStatus.BAD_REQUEST);
         }
-        
+
         Proveedor proveedor = proveedorService.getProveedorById(id);
 
         if(proveedor != null){
